@@ -3,10 +3,11 @@ import './CheckoutScreen.css';
 import Subtotal from './../Component/Subtotal';
 import CheckoutProduct from './../Component/CheckoutProduct';
 import { useStateValue } from './../StateProvider';
-import userEvent from '@testing-library/user-event';
+import { Fade,Stagger } from "react-animation-components";
 
 function CheckOutScreen() {
     const [{basket,user}] = useStateValue();
+
     return (
         <div className="checkout">
               <div className="checkout__left">
@@ -15,14 +16,19 @@ function CheckOutScreen() {
                 <h3>Hello {user?.email}</h3>
                 <h2 className="checkout__title">
                     Your Shopping Basket</h2>
+                    <Stagger in>
                     {basket.map(item=>(
+                        <Fade out>
                         <CheckoutProduct
+                        key={item.id}
                         id={item.id}
                         title={item.title}
                         price={item.price}
                         image={item.image}
                         rating={item.rating}/>
+                       </Fade>
                     ))}
+                    </Stagger>
                     
                 
                 </div>
