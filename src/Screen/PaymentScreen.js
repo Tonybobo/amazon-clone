@@ -1,17 +1,19 @@
 import React,{useEffect, useState} from 'react';
 import './PaymentScreen.css';
-import { useStateValue } from './../StateProvider';
 import CheckoutProduct from '../Component/CheckoutProduct';
 import { Link, useHistory } from 'react-router-dom';
 import {CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import CurrencyFormat from "react-currency-format";
-import { getBasketTotal } from '../reducer';
+import { getBasketTotal } from '../store';
 import axios from '../axios';
 import {db} from '../firebase';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 function PaymentScreen() {
-    const [{user,basket},dispatch] = useStateValue();
+    const user = useSelector(state=>state.user);
+    const basket = useSelector(state=>state.basket);
+    const dispatch = useDispatch();
     const history = useHistory();
     const stripe = useStripe();
     const elements = useElements();

@@ -1,16 +1,21 @@
-export const initialState ={
-    basket:[],
-    user:null
-};
+import { createStore,compose} from 'redux';
+
+
+
 
 export const getBasketTotal = (basket) => 
-    basket?.reduce((amount,item)=>
-        item.price + amount ,0)
+basket?.reduce((amount,item)=>
+    item.price + amount ,0)
 
 
-const reducer = (state,action) =>{
-    console.log(action)
-    switch(action.type){
+
+const InitialState = {
+    basket:[],
+    user:null
+}
+
+const rootReducer = (state= InitialState, action) =>{
+    switch (action.type) {
         case 'ADD_TO_BASKET':
             return {
                 ...state,
@@ -43,8 +48,8 @@ const reducer = (state,action) =>{
         
         default:
             return state;
-
     }
 }
-
-export default reducer;
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store =  createStore(rootReducer, InitialState, composeEnhancer());
+export default store

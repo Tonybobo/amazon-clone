@@ -3,11 +3,14 @@ import './Header.css';
 import SearchIcon from '@material-ui/icons/Search';
 import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import { Link } from 'react-router-dom';
-import { useStateValue } from './../StateProvider';
 import {auth} from '../firebase';
+import { useSelector } from 'react-redux';
 
 function Header() {
-    const [{basket,user},dispatch] = useStateValue();
+
+    const user = useSelector(state => state.user);
+    const basket = useSelector(state => state.basket);
+    
     const handleAuthentication =()=>{
         if(user){
             auth.signOut();

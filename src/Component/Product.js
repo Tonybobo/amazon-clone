@@ -1,10 +1,12 @@
 import React from 'react';
 import './Product.css';
-import { useStateValue } from './../StateProvider';
+import { useDispatch } from 'react-redux';
 
 
 function Product({id,title,image,price,rating}) {
-    const [{basket},dispatch] = useStateValue();
+
+    const dispatch = useDispatch()
+
     
     const addToBasket = () =>{
         //dispatch item to data layer

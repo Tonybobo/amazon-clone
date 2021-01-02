@@ -1,10 +1,9 @@
 import React from 'react'
 import './CheckoutProduct.css';
-import { useStateValue } from './../StateProvider';
-import  FlipMove from 'react-flip-move';
+import { useDispatch } from 'react-redux';
 
 function CheckoutProduct({id , image ,title,price,rating, hideButton}) {
-    const [{},dispatch] = useStateValue();
+    const dispatch =  useDispatch()
     const removeFromBasket = () =>{
         dispatch({
             type:'REMOVE_FROM_BASKET',

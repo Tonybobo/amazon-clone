@@ -2,11 +2,13 @@ import React from 'react';
 import './CheckoutScreen.css';
 import Subtotal from './../Component/Subtotal';
 import CheckoutProduct from './../Component/CheckoutProduct';
-import { useStateValue } from './../StateProvider';
 import { Fade,Stagger } from "react-animation-components";
+import { useSelector } from 'react-redux';
 
 function CheckOutScreen() {
-    const [{basket,user}] = useStateValue();
+
+    const basket = useSelector(state=> state.basket);
+    const user = useSelector(state => state.user);
 
     return (
         <div className="checkout">

@@ -1,19 +1,12 @@
-import React,{useEffect} from 'react';
+import React from 'react';
 import './Order.css';
 import moment from 'moment';
 import CheckoutProduct from './CheckoutProduct';
 import  CurrencyFormat  from 'react-currency-format';
-import { useHistory } from 'react-router-dom';
-import { useStateValue } from './../StateProvider';
 
 function Order({order}) {
-    const [{user}] = useStateValue();
-    const history = useHistory();
-    // useEffect(() => {
-    //     if(!user){
-    //         history.push('/');
-    //     }
-    // }, [user])
+    
+
     return (
         <div className="order">
             <h2>Order</h2>

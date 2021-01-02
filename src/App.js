@@ -6,16 +6,18 @@ import {BrowserRouter as Router,Switch, Route} from 'react-router-dom'
 import CheckoutScreen from './Screen/CheckoutScreen';
 import LoginScreen from './Screen/LoginScreen';
 import { auth } from './firebase';
-import { useStateValue } from './StateProvider';
 import PaymentScreen from './Screen/PaymentScreen';
 import {loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 import OrderScreen from './Screen/OrderScreen';
+import { useDispatch } from 'react-redux';
 
 const promise = loadStripe('pk_test_51I4nW3CK505ToBVyLmlwjBGJW2Mfx6h95MTf6a5dUQcbI6WAOMBwJds7AVofxwx9eMsjMAH4xiLdMBAKUE3ckika00YpnkpY2g');
 
 function App() {
-  const [{},dispatch] = useStateValue();
+  
+  const dispatch = useDispatch();
+  
   useEffect(() => {
      auth.onAuthStateChanged(authUser =>{
        if(authUser){

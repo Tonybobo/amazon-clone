@@ -1,11 +1,11 @@
 import React, {useEffect,useState} from 'react';
 import './OrderScreen.css';
 import {db} from '../firebase';
-import { useStateValue } from './../StateProvider';
 import Order from './../Component/Order';
+import { useSelector } from 'react-redux';
 function OrderScreen() {
     const [orders,setOrders] = useState([]);
-    const [{user,basket},dispatch] = useStateValue();
+    const user = useSelector(state => state.user)
     useEffect(() => {
         if(user){
             db
