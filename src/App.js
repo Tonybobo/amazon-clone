@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useEffect} from'react';
 import Header from './Component/Header';
-import Home from './Component/Home';
+import Home from './Screen/Home';
 import {BrowserRouter as Router,Switch, Route} from 'react-router-dom'
 import CheckoutScreen from './Screen/CheckoutScreen';
 import LoginScreen from './Screen/LoginScreen';
@@ -10,6 +10,7 @@ import { useStateValue } from './StateProvider';
 import PaymentScreen from './Screen/PaymentScreen';
 import {loadStripe} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
+import OrderScreen from './Screen/OrderScreen';
 
 const promise = loadStripe('pk_test_51I4nW3CK505ToBVyLmlwjBGJW2Mfx6h95MTf6a5dUQcbI6WAOMBwJds7AVofxwx9eMsjMAH4xiLdMBAKUE3ckika00YpnkpY2g');
 
@@ -34,6 +35,10 @@ function App() {
     <Router>
     <div className="App">
       <Switch>
+        <Route path="/orders">
+          <Header/>
+          <OrderScreen/>
+        </Route>
         <Route path="/login">
           <LoginScreen/>
         </Route>

@@ -7,10 +7,11 @@ import {CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import CurrencyFormat from "react-currency-format";
 import { getBasketTotal } from '../reducer';
 import axios from '../axios';
+import {db} from '../firebase';
 
 
 function PaymentScreen() {
-    const [{user,basket}] = useStateValue();
+    const [{user,basket},dispatch] = useStateValue();
     const history = useHistory();
     const stripe = useStripe();
     const elements = useElements();
@@ -25,13 +26,15 @@ function PaymentScreen() {
         const getClientSecret = async () =>{
             const response = await axios({
                 method:'post',
-                url:`/payment/create?total=${getBasketTotal(basket)*100 }`
+                url:`payments/create?total=${getBasketTotal(basket)*100 }`
             });
             setClientSecret(response.data.clientSecret)
         }
 
         getClientSecret();
     },[basket])
+
+    console.log(clientSecret);
     
     const handleSubmit = async (event) =>{
         event.preventDefault();
@@ -42,10 +45,22 @@ function PaymentScreen() {
             }
         }).then(({paymentIntent})=>{
 
+            db.collection('users').doc(user?.uid).collection('orders')
+            .doc(paymentIntent.id)
+            .set({
+                basket:basket,
+                amount:paymentIntent.amount,
+                created:paymentIntent.created
+                
+            });
+
             setSucceeded(true);
             setError(null);
             setProcessing(false);
-            history.replaceState('/orders')
+            dispatch({
+                type:'EMPTY_BASKET'
+            })
+            history.replace('/orders')
         })
     }
     const handleChange = (event) =>{
@@ -98,13 +113,11 @@ function PaymentScreen() {
                             <CurrencyFormat
                                     renderText={(value) => (
                                     <>
-                                        <p>
+                                        <h3>
                                         {/* Part of the homework */}
                                         Order Total ({basket.length} items): <strong>{value}</strong>
-                                        </p>
-                                        <small className="subtotal__gift">
-                                        <input type="checkbox" /> This order contains a gift
-                                        </small>
+                                        </h3>
+                                      
                                     </>
                                     )}
                                     decimalScale={2}

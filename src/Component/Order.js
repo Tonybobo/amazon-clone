@@ -1,0 +1,49 @@
+import React,{useEffect} from 'react';
+import './Order.css';
+import moment from 'moment';
+import CheckoutProduct from './CheckoutProduct';
+import  CurrencyFormat  from 'react-currency-format';
+import { useHistory } from 'react-router-dom';
+import { useStateValue } from './../StateProvider';
+
+function Order({order}) {
+    const [{user}] = useStateValue();
+    const history = useHistory();
+    // useEffect(() => {
+    //     if(!user){
+    //         history.push('/');
+    //     }
+    // }, [user])
+    return (
+        <div className="order">
+            <h2>Order</h2>
+            <p>{moment.unix(order.data.created).format("MMMM Do YYYY,hmma")}</p>
+            <p className="order__id">
+                <small>{order.id}</small>
+            </p>
+            {order.data.basket?.map(item =>(
+                   <CheckoutProduct
+                   key={item.id}
+                   id={item.id}
+                   title={item.title}
+                   price={item.price}
+                   image={item.image}
+                   rating={item.rating}
+                   hideButton={true}/>
+            ))}
+
+            <CurrencyFormat
+                renderText={(value) => (
+                    <h3 className="order__total">Order Total: {value}</h3>
+                )}
+                decimalScale={2}
+                value={order.data.amount / 100}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"$"}
+            />   
+        </div>
+    )
+}
+
+export default Order
